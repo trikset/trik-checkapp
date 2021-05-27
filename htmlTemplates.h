@@ -14,7 +14,7 @@ QString reportHeader =
 		"<div class=\"u-clearfix u-sheet u-sheet-1\">"
 		"<div class=\"u-expanded-width u-table u-table-responsive u-table-1\">"
 		"<table class=\"u-table-entity u-table-entity-1\">"
-		"<colgroup><col width=\"25\%\"><col width=\"25\%\"><col width=\"25%\"><col width=\"25\%\"></colgroup>"
+		"<colgroup><col width=\"25%\"><col width=\"25%\"><col width=\"25%\"><col width=\"25%\"></colgroup>"
 		"<tbody class=\"u-align-left u-custom-font u-font-montserrat u-table-alt-palette-1-light-3 u-table-body\">"
 		"<tr style=\"height: 28px;\">"
 		"<td class=\"u-custom-font u-first-column u-font-montserrat u-table-cell u-table-cell-1\">"
