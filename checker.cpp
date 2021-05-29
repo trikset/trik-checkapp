@@ -85,14 +85,14 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 	QList<TaskReport> result;
 	QElapsedTimer timer;
 	for (auto &&f : t->fieldsInfos) {
-		startProcess("patcher", QStringList(t->qrs.absoluteFilePath()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
+		startProcess("patcher.exe", QStringList(t->qrs.absoluteFilePath()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
 
 		TaskReport report;
 		report.name = t->qrs.fileName();
 		report.task = f.fileName();
 
 		timer.restart();
-		report.error = startProcess("2D-model", QStringList(t->qrs.absoluteFilePath()) + t->runnerOptions);
+		report.error = startProcess("2D-model.exe", QStringList(t->qrs.absoluteFilePath()) + t->runnerOptions);
 		qDebug() << report.name << report.task << report.error;
 		report.time = QTime::fromMSecsSinceStartOfDay(timer.elapsed()).toString("mm:ss:zzz");
 		if (!isErrorMessage(report.error)) {
