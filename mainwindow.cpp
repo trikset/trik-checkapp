@@ -16,13 +16,13 @@
 #include "ui_mainwindow.h"
 
 #include <QtConcurrent/QtConcurrent>
-#include <checker.h>
 #include <QDebug>
 #include <QFileDialog>
 #include <QProgressDialog>
 #include <QSettings>
 
-#include <optionsAliases.h>
+#include "checker.h"
+#include "optionsAliases.h"
 
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
