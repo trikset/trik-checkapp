@@ -20,8 +20,8 @@
 #include <QProgressDialog>
 #include <QTime>
 
-#include <optionsAliases.h>
-#include <htmlTemplates.h>
+#include "optionsAliases.h"
+#include "htmlTemplates.h"
 
 const int BACKGROUND_TIMELIMIT = 20 * 1000;
 
