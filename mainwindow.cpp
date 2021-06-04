@@ -37,11 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 		mUi->closeOnSuccessOption->setEnabled(state);
 	});
 
-
-	mUi->runCheckButton->setToolTip("Проверить решения на выбранных полях");
-	mUi->openTasks->setToolTip("Выбрать папку с решениями");
-	mUi->chooseField->setToolTip("Выбрать папку с полями для проверки");
-
 	loadSettings();
 }
 
