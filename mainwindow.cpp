@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, mUi(new Ui::MainWindow)
 	, mTasksDir(QDir::currentPath())
-	, mLocalSettings(QDir::toNativeSeparators(mTasksDir.absolutePath() + "/taskCheck.ini"))
+	, mLocalSettings(QDir::toNativeSeparators(mTasksDir.absolutePath() + "/checkapp.ini"))
 {
 	mUi->setupUi(this);
 
@@ -36,6 +36,11 @@ MainWindow::MainWindow(QWidget *parent)
 		mDirOptions[mTasksPath][backgroundOption] = !state;
 		mUi->closeOnSuccessOption->setEnabled(state);
 	});
+
+
+	mUi->runCheckButton->setToolTip("Проверить решения на выбранных полях");
+	mUi->openTasks->setToolTip("Выбрать папку с решениями");
+	mUi->chooseField->setToolTip("Выбрать папку с полями для проверки");
 
 	loadSettings();
 }

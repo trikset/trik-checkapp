@@ -227,7 +227,6 @@ const QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> 
 	if (options[consoleOption].toBool())
 		result << "-c";
 
-	result << "-m" << "script";
 	return result;
 }
 
