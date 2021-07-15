@@ -28,10 +28,10 @@
            </sizepolicy>
           </property>
           <property name="toolTip">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Выбрать папку с решениями&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;justify&quot;&gt;Select a folder with solutions&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
           <property name="text">
-           <string>Выбрать решения ...</string>
+           <string>Select solutions ...</string>
           </property>
          </widget>
         </item>
@@ -73,7 +73,7 @@
       <item>
        <widget class="QGroupBox" name="verticalGroupBox">
         <property name="title">
-         <string>Правила проверки заданий</string>
+         <string>Rules for task checking</string>
         </property>
         <property name="checkable">
          <bool>false</bool>
@@ -84,10 +84,10 @@
            <item>
             <widget class="QPushButton" name="chooseField">
              <property name="toolTip">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Выбрать папку с полями для проверки&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Select the folder with the fields to check&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="text">
-              <string>Выбрать поля ...</string>
+              <string>Select fields ...</string>
              </property>
             </widget>
            </item>
@@ -120,14 +120,14 @@
              <item>
               <widget class="QCheckBox" name="wPcheckBox">
                <property name="text">
-                <string>Жюри выбирает точку старта</string>
+                <string>Jury selects starting point</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QCheckBox" name="wPPCheckBox">
                <property name="text">
-                <string>Задать точку старта и конструкцию робота</string>
+                <string>Set the starting point and the robot configuration</string>
                </property>
                <property name="checked">
                 <bool>true</bool>
@@ -137,7 +137,7 @@
              <item>
               <widget class="QCheckBox" name="resetPCheckBox">
                <property name="text">
-                <string>Начать со стартовой позиции</string>
+                <string>Begin at the starting position</string>
                </property>
                <property name="checked">
                 <bool>true</bool>
@@ -154,7 +154,7 @@
                 <bool>true</bool>
                </property>
                <property name="title">
-                <string>Включить визуализацию проверки</string>
+                <string>Enable check visualization</string>
                </property>
                <property name="checkable">
                 <bool>true</bool>
@@ -181,7 +181,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Отображать консоль робота</string>
+                    <string>Display the robot console</string>
                    </property>
                    <property name="checked">
                     <bool>false</bool>
@@ -200,7 +200,7 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Закрывать окно после проверки задачи</string>
+                    <string>Close the window after checking the task</string>
                    </property>
                    <property name="checked">
                     <bool>false</bool>
@@ -218,10 +218,10 @@
          <item>
           <widget class="QPushButton" name="runCheckButton">
            <property name="toolTip">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;Проверить решения на выбранных полях&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check the solutions on the selected fields&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
-            <string>Выполнить проверку ...</string>
+            <string>Perform a check ...</string>
            </property>
           </widget>
          </item>

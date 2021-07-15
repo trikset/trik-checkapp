@@ -17,13 +17,17 @@
 #include <QApplication>
 #include <QDebug>
 #include <QStyleFactory>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication a(argc, argv);
-	qDebug() << QStyleFactory::keys();
 	a.setStyle(QStyleFactory::create("Fusion"));
+
+	QTranslator translator;
+	translator.load(":/translations/checkapp_" + QLocale::system().name() + ".qm");
+	a.installTranslator(&translator);
 
 	MainWindow w;
 	w.show();

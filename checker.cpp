@@ -41,10 +41,10 @@ void Checker::revieweTasks(const QFileInfoList &qrsInfos, const QFileInfoList &f
 	}
 
 	QProgressDialog dialog;
-	dialog.setCancelButtonText("Отмена");
+	dialog.setCancelButtonText(tr("Cancel"));
 	dialog.setWindowTitle("TRIK CheckApp");
 	dialog.setWindowFlags(dialog.windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	dialog.setLabelText("Выполняется проверка...");
+	dialog.setLabelText(tr("A check is performed..."));
 
 
 	QFutureWatcher<QHash<QString, QList<TaskReport>>> watcher;
@@ -56,7 +56,7 @@ void Checker::revieweTasks(const QFileInfoList &qrsInfos, const QFileInfoList &f
 			, &dialog, &QProgressDialog::setValue);
 	connect(&watcher, &QFutureWatcher<QHash<QString, QList<TaskReport>>>::finished,
 			this, [this, &dialog, &watcher](){
-		dialog.setLabelText("Создаю отчёт");
+		dialog.setLabelText(tr("Creating a report"));
 		if (!watcher.isCanceled()) {
 			auto result = watcher.result();
 			this->createHtmlReport(result);
@@ -96,8 +96,8 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 		qDebug() << report.name << report.task << report.error;
 		report.time = QTime::fromMSecsSinceStartOfDay(timer.elapsed()).toString("mm:ss:zzz");
 		if (!isErrorMessage(report.error)) {
-			int start = report.error.indexOf("за") + 3;
-			int end = report.error.indexOf("сек!") - 1;
+			int start = report.error.indexOf(tr("in")) + 3;
+			int end = report.error.indexOf(tr("sec!")) - 1;
 			qDebug() << "REPORTER: " << start << end << report.error.mid(start, end - start);
 			report.time += "/" + report.error.mid(start, end - start);
 		}
@@ -184,7 +184,7 @@ void Checker::createHtmlReport(QHash<QString, QList<TaskReport>> &result)
 			}
 			qDebug() << r.name << r.task;
 			qDebug() << r.error;
-			QString status = isErrorMessage(r.error) ? "Ошибка" : "Выполнено";
+			QString status = isErrorMessage(r.error) ? tr("Error") : tr("Complete");
 			qDebug() << status;
 			body += taskReport.arg(color).arg(name).arg(r.task).arg(status).arg(r.time);
 

@@ -16,7 +16,9 @@ QT       += core gui concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++11 lrelease embed_translations
+
+QM_FILES_RESOURCE_PREFIX = /translations
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -37,7 +39,7 @@ FORMS += \
     $$PWD/mainwindow.ui
 
 TRANSLATIONS += \
-    $$PWD/trikCheckApp_ru_RU.ts
+    $$PWD/translations/checkapp_ru.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
