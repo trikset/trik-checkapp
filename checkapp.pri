@@ -54,7 +54,6 @@ win32 {
 
 macx {
         ICON = $$PWD/icon.icns
-	QMAKE_INFO_PLIST = mainWindow.plist
 }
 
 RESOURCES += \
