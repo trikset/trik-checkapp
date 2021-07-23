@@ -1,0 +1,77 @@
+name: GitHub CI
+
+on:
+  push:
+    branches:
+  pull_request:
+    branches:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            os-name: windows
+            qt-version: '5.12.10'
+            mingw-version: 7.3
+            mingw-short-version: 73
+
+          - os: ubuntu-latest
+            os-name: linux
+
+          - os: macos-latest
+            os-name: mac
+    defaults:
+      run:
+        shell: bash
+
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Configure git
+        run: |
+            git config --global core.symlinks true
+            git config --global core.autocrlf true
+
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.12.10'
+          host: ${{ matrix.os-name }}
+          arch: 'win32_mingw73'
+          tools: 'tools_mingw,${{matrix.mingw-version}},qt.tools.win32_mingw${{matrix.mingw-short-version}}0'
+
+      - name: Update PATH
+        run: |
+             set -xue
+             cygpath -w /usr/bin >> $GITHUB_PATH
+             cygpath -w /mingw32/bin >> $GITHUB_PATH
+             cygpath -w "${IQTA_TOOLS}/mingw${{matrix.mingw-short-version}}0_32/bin" >> $GITHUB_PATH
+             cygpath -w "${Qt5_Dir}/bin" >> $GITHUB_PATH
+        if: ${{ matrix.os-name == 'windows' }}
+
+      - name: Check available tools
+        run: |
+             set -xueo pipefail
+             uname -a
+             qmake --version
+             make --version
+             g++ --version
+
+      - name: QMake
+        run: 'qmake trikCheckApp.pro CONFIG+=release'
+
+      - name: QMake all
+        timeout-minutes: 5
+        run: make -j $(nproc) qmake_all
+
+      - name: Make all
+        timeout-minutes: 10
+        run: make -j $(nproc) all
