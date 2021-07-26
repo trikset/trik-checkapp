@@ -180,7 +180,7 @@ void Checker::createHtmlReport(QHash<QString, QList<TaskReport>> &result)
 				name = r.name;
 			} else if (counter == 1) {
 				color = "";
-				name = QString("Итог %1 из %2").arg(numberOfCorrect[i]).arg(result[key].length());
+				name = QString(tr("Total %1 of %2")).arg(numberOfCorrect[i]).arg(result[key].length());
 			}
 			qDebug() << r.name << r.task;
 			qDebug() << r.error;
@@ -209,7 +209,6 @@ void Checker::createHtmlReport(QHash<QString, QList<TaskReport>> &result)
 	reportFile.write(raw);
 	reportFile.close();
 
-	qDebug() << "REPORT CREATED";
 	delete[] numberOfCorrect;
 }
 
@@ -257,5 +256,5 @@ const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant>
 bool Checker::isErrorMessage(const QString &message)
 {
 	//return message.indexOf("Information") == -1;
-	return message.indexOf("выполнено") == -1;
+	return message.indexOf(tr("Error")) != -1;
 }

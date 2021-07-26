@@ -30,7 +30,13 @@
         <translation>сек!</translation>
     </message>
     <message>
+        <location filename="../checker.cpp" line="183"/>
+        <source>Total %1 of %2</source>
+        <translation>Итого %1 из %2</translation>
+    </message>
+    <message>
         <location filename="../checker.cpp" line="187"/>
+        <location filename="../checker.cpp" line="259"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>

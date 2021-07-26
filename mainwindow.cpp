@@ -38,6 +38,9 @@ MainWindow::MainWindow(QWidget *parent)
 	});
 
 	loadSettings();
+	if (mTasksPath.isEmpty()) {
+		mUi->runCheckButton->setEnabled(false);
+	}
 }
 
 MainWindow::~MainWindow()
@@ -80,6 +83,7 @@ void MainWindow::on_openTasks_clicked()
 	mDirOptions[mTasksPath][xmlFieldsDir] = xmlField.isEmpty() ? mTasksPath : xmlField;
 
 	resetUiOptions(mDirOptions[mTasksPath]);
+	mUi->runCheckButton->setEnabled(true);
 }
 
 void MainWindow::on_wPcheckBox_stateChanged(int state)
