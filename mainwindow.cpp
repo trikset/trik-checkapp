@@ -38,9 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
 	});
 
 	loadSettings();
-	if (mTasksPath.isEmpty()) {
-		mUi->runCheckButton->setEnabled(false);
-	}
+	mUi->runCheckButton->setEnabled(!mTasksPath.isEmpty());
 }
 
 MainWindow::~MainWindow()
