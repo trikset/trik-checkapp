@@ -46,7 +46,6 @@ void Checker::revieweTasks(const QFileInfoList &qrsInfos, const QFileInfoList &f
 	dialog.setWindowFlags(dialog.windowFlags() & ~Qt::WindowContextHelpButtonHint);
 	dialog.setLabelText(tr("A check is performed..."));
 
-
 	QFutureWatcher<QHash<QString, QList<TaskReport>>> watcher;
 	connect(&dialog,  &QProgressDialog::canceled, &watcher
 			, &QFutureWatcher<QHash<QString, QList<TaskReport>>>::cancel);
@@ -71,13 +70,10 @@ void Checker::revieweTasks(const QFileInfoList &qrsInfos, const QFileInfoList &f
 	if (dialog.wasCanceled()) {
 		watcher.waitForFinished();
 	}
-	qDebug() << "watcher.isCanceled()" << watcher.isCanceled();
 
 	for(auto &&t : tasksList) {
 		delete t;
 	}
-
-
 }
 
 QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
@@ -93,12 +89,10 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 
 		timer.restart();
 		report.error = startProcess("2D-model.exe", QStringList(t->qrs.absoluteFilePath()) + t->runnerOptions);
-		qDebug() << report.name << report.task << report.error;
 		report.time = QTime::fromMSecsSinceStartOfDay(timer.elapsed()).toString("mm:ss:zzz");
 		if (!isErrorMessage(report.error)) {
 			int start = report.error.indexOf(tr("in")) + 3;
 			int end = report.error.indexOf(tr("sec!")) - 1;
-			qDebug() << "REPORTER: " << start << end << report.error.mid(start, end - start);
 			report.time += "/" + report.error.mid(start, end - start);
 		}
 
@@ -126,12 +120,10 @@ QString Checker::startProcess(const QString &program, const QStringList &options
 	auto p = program;
 	proccess.start(p, options);
 	if (!proccess.waitForStarted()) {
-		qDebug() << "model" << "not started" << proccess.exitStatus();;
 		return "Error: not started";
 	}
 
 	if (!proccess.waitForFinished()) {
-		qDebug() << "model" << "not finished" << proccess.exitStatus();;
 		return "Error: not finished";
 	}
 
@@ -255,6 +247,5 @@ const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant>
 
 bool Checker::isErrorMessage(const QString &message)
 {
-	//return message.indexOf("Information") == -1;
 	return message.indexOf(tr("Error")) != -1;
 }
