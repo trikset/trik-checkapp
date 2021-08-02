@@ -63,6 +63,21 @@ jobs:
              make --version
              g++ --version
 
+      - name: Check translations
+        run: |
+            rm aqtinstall.log
+            lupdate trikCheckApp.pro
+            gitStatus=$(git status -s && git submodule --quiet foreach --recursive git status -s)
+            if [ ! -z "$gitStatus" ]
+            then
+              echo $gitStatus
+              echo git status must be clean
+              git diff 
+              false
+            else
+              true
+            fi
+
       - name: QMake
         run: 'qmake trikCheckApp.pro CONFIG+=release'
 
