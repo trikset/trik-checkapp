@@ -49,7 +49,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_runCheckButton_clicked()
 {
-	auto qrsList = mTasksDir.entryInfoList({"*.qrs"}, QDir::Files);
+	// TODO: Separate .qrs and .tsj
+	// There must be some sort of separation, because if there are both .qrs and .tsj files in the directory,
+	// it will cause problems.
+	auto qrsList = mTasksDir.entryInfoList({"*.qrs", "*.tsj"}, QDir::Files);
 	auto fields = mFieldsDir.entryInfoList({"*.xml"}, QDir::Files);
 
 	Checker checker(mTasksPath);

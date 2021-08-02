@@ -14,34 +14,34 @@
         <translation>Выполняется проверка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="59"/>
+        <location filename="../checker.cpp" line="58"/>
         <source>Creating a report</source>
         <translation>Создаю отчёт</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="99"/>
+        <location filename="../checker.cpp" line="94"/>
         <source>in</source>
         <translatorcomment>за сколько секунд</translatorcomment>
         <translation>за</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="100"/>
+        <location filename="../checker.cpp" line="95"/>
         <source>sec!</source>
         <translation>сек!</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="183"/>
+        <location filename="../checker.cpp" line="175"/>
         <source>Total %1 of %2</source>
         <translation>Итого %1 из %2</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="187"/>
-        <location filename="../checker.cpp" line="259"/>
+        <location filename="../checker.cpp" line="179"/>
+        <location filename="../checker.cpp" line="250"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="187"/>
+        <location filename="../checker.cpp" line="179"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>
