@@ -35,7 +35,12 @@ jobs:
       - name: Configure git
         run: |
             git config --global core.symlinks true
+            git config --global core.autocrlf input
+
+      - name: Configure git for windows
+        run: |
             git config --global core.autocrlf true
+        if: ${{ matrix.os-name == 'windows' }}
 
       - uses: actions/checkout@v2
 
