@@ -24,6 +24,7 @@
 #include "htmlTemplates.h"
 
 const int BACKGROUND_TIMELIMIT = 20 * 1000;
+const int MAX_VISIBLE_THREADS = 2;
 
 Checker::Checker(const QString &tasksPath)
 	: mTasksPath(tasksPath)
@@ -63,7 +64,10 @@ void Checker::revieweTasks(const QFileInfoList &qrsInfos, const QFileInfoList &f
 		dialog.reset();
 	});
 
-	QThreadPool::globalInstance()->setMaxThreadCount(2);
+	if (!options[backgroundOption].toBool()) {
+		QThreadPool::globalInstance()->setMaxThreadCount(MAX_VISIBLE_THREADS);
+	}
+
 	auto futureTasks = QtConcurrent::mappedReduced(tasksList, checkTask, reduceFunction);
 	watcher.setFuture(futureTasks);
 
