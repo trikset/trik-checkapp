@@ -92,9 +92,9 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 	}
 
 	for (auto &&f : t->fieldsInfos) {
-		QTemporaryFile patchedQrs;
-		patchedQrs.open();
-		patchedQrs.copy(t->qrs.absoluteFilePath());
+		QDir(t->qrs.absoluteDir().absolutePath()).mkdir("tmp");
+		const QString patchedQrsName = t->qrs.absoluteDir().absolutePath() + "/tmp/" + t->qrs.fileName();
+		QFile patchedQrs(patchedQrsName);
 
 		startProcess("patcher" + ext, QStringList(patchedQrs.fileName()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
 
@@ -105,13 +105,15 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 		timer.restart();
 		report.error = startProcess("2D-model" + ext, QStringList(patchedQrs.fileName()) + t->runnerOptions);
 		report.time = QTime::fromMSecsSinceStartOfDay(timer.elapsed()).toString("mm:ss:zzz");
-		if (!isErrorMessage(report.error)) {
-			int start = report.error.indexOf(tr("in")) + 3;
-			int end = report.error.indexOf(tr("sec!")) - 1;
-			report.time += "/" + report.error.mid(start, end - start);
-		}
+
+//		if (!isErrorMessage(report.error)) {
+//			int start = report.error.indexOf(tr("in")) + 3;
+//			int end = report.error.indexOf(tr("sec!")) - 1;
+//			report.time += "/" + report.error.mid(start, end - start);
+//		}
 		result.append(report);
 	}
+	QDir(t->qrs.absoluteDir().absolutePath() + "/tmp/").removeRecursively();
 
 	return result;
 }
