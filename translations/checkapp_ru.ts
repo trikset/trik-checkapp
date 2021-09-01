@@ -80,12 +80,13 @@
     <message>
         <location filename="../mainwindow.ui" line="123"/>
         <source>Jury selects starting point</source>
-        <translation>Жюри выбирает точку старта</translation>
+        <translation>Точку старта взять с поля проверки</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="130"/>
         <source>Set the starting point and the robot configuration</source>
-        <translation>Задать точку старта и конструкцию робота</translation>
+        <translation>Точку старта и конфигурацию робота
+взять с поля проверки</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
