@@ -34,7 +34,7 @@
     </message>
     <message>
         <location filename="../checker.cpp" line="195"/>
-        <location filename="../checker.cpp" line="266"/>
+        <location filename="../checker.cpp" line="264"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
