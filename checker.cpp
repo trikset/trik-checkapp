@@ -246,16 +246,14 @@ const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant>
 	}
 	else {
 		if (options[patchWP].toBool()) {
-				result << "--wp";
+			result << "--wp";
 		}
 		else {
-			if (options[resetRP].toBool()) {
-				result << "--rrp";
-			}
-			if (options[patchWorld].toBool()) {
-				result << "-w";
-			}
+			result << "-w";
 		}
+	}
+	if (options[resetRP].toBool()) {
+		result << "--rrp";
 	}
 
 	return result;
