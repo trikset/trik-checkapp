@@ -24,6 +24,7 @@
 #include "htmlTemplates.h"
 
 const int BACKGROUND_TIMELIMIT = 20 * 1000;
+const int MAX_VISIBLE_THREADS = 2;
 
 Checker::Checker(const QString &tasksPath)
 	: mTasksPath(tasksPath)
@@ -63,6 +64,10 @@ void Checker::revieweTasks(const QFileInfoList &qrsInfos, const QFileInfoList &f
 		dialog.reset();
 	});
 
+	if (!options[backgroundOption].toBool()) {
+		QThreadPool::globalInstance()->setMaxThreadCount(MAX_VISIBLE_THREADS);
+	}
+
 	auto futureTasks = QtConcurrent::mappedReduced(tasksList, checkTask, reduceFunction);
 	watcher.setFuture(futureTasks);
 
@@ -80,24 +85,35 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 {
 	QList<TaskReport> result;
 	QElapsedTimer timer;
+
+	QString ext = "";
+	if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
+		ext = ".exe";
+	}
+
 	for (auto &&f : t->fieldsInfos) {
-		startProcess("patcher.exe", QStringList(t->qrs.absoluteFilePath()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
+		QDir(t->qrs.absoluteDir().absolutePath()).mkdir("tmp");
+		const QString patchedQrsName = t->qrs.absoluteDir().absolutePath() + "/tmp/" + t->qrs.fileName();
+		QFile patchedQrs(patchedQrsName);
+
+		startProcess("patcher" + ext, QStringList(patchedQrs.fileName()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
 
 		TaskReport report;
 		report.name = t->qrs.fileName();
 		report.task = f.fileName();
 
 		timer.restart();
-		report.error = startProcess("2D-model.exe", QStringList(t->qrs.absoluteFilePath()) + t->runnerOptions);
+		report.error = startProcess("2D-model" + ext, QStringList(patchedQrs.fileName()) + t->runnerOptions);
 		report.time = QTime::fromMSecsSinceStartOfDay(timer.elapsed()).toString("mm:ss:zzz");
-		if (!isErrorMessage(report.error)) {
-			int start = report.error.indexOf(tr("in")) + 3;
-			int end = report.error.indexOf(tr("sec!")) - 1;
-			report.time += "/" + report.error.mid(start, end - start);
-		}
 
+//		if (!isErrorMessage(report.error)) {
+//			int start = report.error.indexOf(tr("in")) + 3;
+//			int end = report.error.indexOf(tr("sec!")) - 1;
+//			report.time += "/" + report.error.mid(start, end - start);
+//		}
 		result.append(report);
 	}
+	QDir(t->qrs.absoluteDir().absolutePath() + "/tmp/").removeRecursively();
 
 	return result;
 }
