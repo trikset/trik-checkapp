@@ -4,44 +4,42 @@
 <context>
     <name>Checker</name>
     <message>
-        <location filename="../checker.cpp" line="44"/>
+        <location filename="../checker.cpp" line="45"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="47"/>
+        <location filename="../checker.cpp" line="48"/>
         <source>A check is performed...</source>
         <translation>Выполняется проверка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="58"/>
+        <location filename="../checker.cpp" line="59"/>
         <source>Creating a report</source>
         <translation>Создаю отчёт</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="94"/>
         <source>in</source>
         <translatorcomment>за сколько секунд</translatorcomment>
-        <translation>за</translation>
+        <translation type="vanished">за</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="95"/>
         <source>sec!</source>
-        <translation>сек!</translation>
+        <translation type="vanished">сек!</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="175"/>
+        <location filename="../checker.cpp" line="191"/>
         <source>Total %1 of %2</source>
         <translation>Итого %1 из %2</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="179"/>
-        <location filename="../checker.cpp" line="250"/>
+        <location filename="../checker.cpp" line="195"/>
+        <location filename="../checker.cpp" line="266"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="179"/>
+        <location filename="../checker.cpp" line="195"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>
@@ -82,12 +80,13 @@
     <message>
         <location filename="../mainwindow.ui" line="123"/>
         <source>Jury selects starting point</source>
-        <translation>Жюри выбирает точку старта</translation>
+        <translation>Точку старта взять с поля проверки</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="130"/>
         <source>Set the starting point and the robot configuration</source>
-        <translation>Задать точку старта и конструкцию робота</translation>
+        <translation>Точку старта и конфигурацию робота
+взять с поля проверки</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="140"/>
