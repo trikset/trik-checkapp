@@ -263,5 +263,5 @@ const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant>
 
 bool Checker::isErrorMessage(const QString &message)
 {
-	return message.indexOf(tr("Error")) != -1;
+	return message.indexOf(tr("Error")) != -1 or message.indexOf("Error") != -1;
 }
