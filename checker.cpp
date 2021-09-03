@@ -94,6 +94,7 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 	for (auto &&f : t->fieldsInfos) {
 		QDir(t->qrs.absoluteDir().absolutePath()).mkdir("tmp");
 		const QString patchedQrsName = t->qrs.absoluteDir().absolutePath() + "/tmp/" + t->qrs.fileName();
+		QFile(t->qrs.absoluteFilePath()).copy(patchedQrsName);
 		QFile patchedQrs(patchedQrsName);
 
 		startProcess("patcher" + ext, QStringList(patchedQrs.fileName()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
@@ -241,6 +242,10 @@ const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant>
 {
 	QStringList result;
 
+	if (options[resetRP].toBool()) {
+		result << "--rrp";
+	}
+
 	if (options[patchField].toBool()) {
 		result << "-f";
 	}
@@ -251,9 +256,6 @@ const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant>
 		else {
 			result << "-w";
 		}
-	}
-	if (options[resetRP].toBool()) {
-		result << "--rrp";
 	}
 
 	return result;
