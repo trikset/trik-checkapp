@@ -28,18 +28,18 @@
         <translation type="vanished">сек!</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="191"/>
+        <location filename="../checker.cpp" line="192"/>
         <source>Total %1 of %2</source>
         <translation>Итого %1 из %2</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="195"/>
-        <location filename="../checker.cpp" line="264"/>
+        <location filename="../checker.cpp" line="196"/>
+        <location filename="../checker.cpp" line="266"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="195"/>
+        <location filename="../checker.cpp" line="196"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>
