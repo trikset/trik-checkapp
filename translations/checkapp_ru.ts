@@ -19,27 +19,29 @@
         <translation>Создаю отчёт</translation>
     </message>
     <message>
+        <location filename="../checker.cpp" line="111"/>
         <source>in</source>
         <translatorcomment>за сколько секунд</translatorcomment>
-        <translation type="vanished">за</translation>
+        <translation>за</translation>
     </message>
     <message>
+        <location filename="../checker.cpp" line="112"/>
         <source>sec!</source>
-        <translation type="vanished">сек!</translation>
+        <translation>сек!</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="192"/>
+        <location filename="../checker.cpp" line="195"/>
         <source>Total %1 of %2</source>
         <translation>Итого %1 из %2</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="196"/>
-        <location filename="../checker.cpp" line="266"/>
+        <location filename="../checker.cpp" line="199"/>
+        <location filename="../checker.cpp" line="269"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="196"/>
+        <location filename="../checker.cpp" line="199"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>

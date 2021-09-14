@@ -97,21 +97,24 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 		QFile(t->qrs.absoluteFilePath()).copy(patchedQrsName);
 		QFile patchedQrs(patchedQrsName);
 
-		startProcess("patcher" + ext, QStringList(patchedQrs.fileName()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
+		startProcess("C:/TRIKStudio12345/patcher" + ext, QStringList(patchedQrs.fileName()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
 
 		TaskReport report;
 		report.name = t->qrs.fileName();
 		report.task = f.fileName();
 
 		timer.restart();
-		report.error = startProcess("2D-model" + ext, QStringList(patchedQrs.fileName()) + t->runnerOptions);
+		report.error = startProcess("C:/TRIKStudio12345/2D-model" + ext, QStringList(patchedQrs.fileName()) + t->runnerOptions);
 		report.time = QTime::fromMSecsSinceStartOfDay(timer.elapsed()).toString("mm:ss:zzz");
 
-//		if (!isErrorMessage(report.error)) {
-//			int start = report.error.indexOf(tr("in")) + 3;
-//			int end = report.error.indexOf(tr("sec!")) - 1;
-//			report.time += "/" + report.error.mid(start, end - start);
-//		}
+		if (!isErrorMessage(report.error)) {
+			int start = report.error.indexOf(tr("in")) + 3;
+			int end = report.error.indexOf(tr("sec!")) - 1;
+			if (start - 3 != -1 && end + 1 != -1) {
+				report.time += "/" + report.error.mid(start, end - start);
+				qDebug() << report.time;
+			}
+		}
 		result.append(report);
 	}
 	QDir(t->qrs.absoluteDir().absolutePath() + "/tmp/").removeRecursively();
@@ -129,22 +132,23 @@ void Checker::reduceFunction(QHash<QString, QList<TaskReport>> &result, const QL
 QString Checker::startProcess(const QString &program, const QStringList &options)
 {
 	QProcess proccess;
-
-	if (options.contains("-b")) {
-		QTimer::singleShot(BACKGROUND_TIMELIMIT, &proccess, &QProcess::terminate);
-	}
-
-	auto p = program;
-	proccess.start(p, options);
+	proccess.start(program, options);
 	if (!proccess.waitForStarted()) {
 		return "Error: not started";
 	}
 
-	if (!proccess.waitForFinished()) {
+
+	if (options.contains("-b") && !proccess.waitForFinished(BACKGROUND_TIMELIMIT)) {
 		return "Error: not finished";
+	}
+	else {
+		proccess.waitForFinished(-1);
 	}
 
 	QString error = proccess.readAllStandardError();
+	qDebug() << "-------";
+	qDebug() << error;
+	qDebug() << proccess.readAllStandardOutput();
 
 	return error;
 }
