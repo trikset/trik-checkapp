@@ -95,12 +95,12 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 		QFile(t->qrs.absoluteFilePath()).copy(patchedQrsName);
 		QFile patchedQrs(patchedQrsName);
 
-		startProcess("C:/TRIKStudio12345/patcher" + ext, QStringList(patchedQrs.fileName()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
+		startProcess("patcher" + ext, QStringList(patchedQrs.fileName()) + t->patcherOptions + QStringList(f.absoluteFilePath()));
 
 		TaskReport report;
 		report.name = t->qrs.fileName();
 		report.task = f.fileName();
-		report.error = startProcess("C:/TRIKStudio12345/2D-model" + ext, QStringList(patchedQrs.fileName()) + t->runnerOptions);
+		report.error = startProcess("2D-model" + ext, QStringList(patchedQrs.fileName()) + t->runnerOptions);
 		report.time = "-";
 
 		if (!isErrorMessage(report.error)) {
