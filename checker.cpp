@@ -84,8 +84,6 @@ void Checker::revieweTasks(const QFileInfoList &qrsInfos, const QFileInfoList &f
 QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 {
 	QList<TaskReport> result;
-	QElapsedTimer timer;
-
 	QString ext = "";
 	if (QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows) {
 		ext = ".exe";
@@ -102,16 +100,17 @@ QList<Checker::TaskReport> Checker::checkTask(const Checker::Task *t)
 		TaskReport report;
 		report.name = t->qrs.fileName();
 		report.task = f.fileName();
-
-		timer.restart();
 		report.error = startProcess("2D-model" + ext, QStringList(patchedQrs.fileName()) + t->runnerOptions);
-		report.time = QTime::fromMSecsSinceStartOfDay(timer.elapsed()).toString("mm:ss:zzz");
+		report.time = "-";
 
-//		if (!isErrorMessage(report.error)) {
-//			int start = report.error.indexOf(tr("in")) + 3;
-//			int end = report.error.indexOf(tr("sec!")) - 1;
-//			report.time += "/" + report.error.mid(start, end - start);
-//		}
+		if (!isErrorMessage(report.error)) {
+			int start = report.error.indexOf(tr("in")) + 3;
+			int end = report.error.indexOf(tr("sec!")) - 1;
+			if (start - 3 != -1 && end + 1 != -1) {
+				report.time = report.error.mid(start, end - start);
+			}
+		}
+
 		result.append(report);
 	}
 	QDir(t->qrs.absoluteDir().absolutePath() + "/tmp/").removeRecursively();
@@ -129,24 +128,19 @@ void Checker::reduceFunction(QHash<QString, QList<TaskReport>> &result, const QL
 QString Checker::startProcess(const QString &program, const QStringList &options)
 {
 	QProcess proccess;
-
-	if (options.contains("-b")) {
-		QTimer::singleShot(BACKGROUND_TIMELIMIT, &proccess, &QProcess::terminate);
-	}
-
-	auto p = program;
-	proccess.start(p, options);
+	proccess.start(program, options);
 	if (!proccess.waitForStarted()) {
 		return "Error: not started";
 	}
 
-	if (!proccess.waitForFinished()) {
+	if (options.contains("-b") && !proccess.waitForFinished(BACKGROUND_TIMELIMIT)) {
 		return "Error: not finished";
 	}
+	else {
+		proccess.waitForFinished(-1);
+	}
 
-	QString error = proccess.readAllStandardError();
-
-	return error;
+	return proccess.readAllStandardError();
 }
 
 void Checker::createHtmlReport(QHash<QString, QList<TaskReport>> &result)
@@ -225,7 +219,6 @@ const QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> 
 {
 	QStringList result;
 
-	qDebug() << options;
 	if (options[closeSuccessOption].toBool())
 		result << "--close-on-succes";
 
