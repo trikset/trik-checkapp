@@ -4,44 +4,44 @@
 <context>
     <name>Checker</name>
     <message>
-        <location filename="../checker.cpp" line="45"/>
+        <location filename="../checker.cpp" line="44"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="48"/>
+        <location filename="../checker.cpp" line="47"/>
         <source>A check is performed...</source>
         <translation>Выполняется проверка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="59"/>
+        <location filename="../checker.cpp" line="58"/>
         <source>Creating a report</source>
         <translation>Создаю отчёт</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="107"/>
+        <location filename="../checker.cpp" line="106"/>
         <source>in</source>
         <translatorcomment>за сколько секунд</translatorcomment>
         <translation>за</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="108"/>
+        <location filename="../checker.cpp" line="107"/>
         <source>sec!</source>
         <translation>сек!</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="186"/>
+        <location filename="../checker.cpp" line="185"/>
         <source>Total %1 of %2</source>
         <translation>Итого %1 из %2</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="188"/>
-        <location filename="../checker.cpp" line="255"/>
+        <location filename="../checker.cpp" line="187"/>
+        <location filename="../checker.cpp" line="254"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="188"/>
+        <location filename="../checker.cpp" line="187"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>

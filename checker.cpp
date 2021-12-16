@@ -15,7 +15,6 @@
 #include "checker.h"
 
 #include <QProcess>
-#include <QDebug>
 #include <QtConcurrent>
 #include <QProgressDialog>
 #include <QTime>
