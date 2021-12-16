@@ -229,7 +229,6 @@ const QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> 
 const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant> &options)
 {
 	QStringList result;
-
 	if (options[resetRP].toBool()) {
 		result << "--rrp";
 	}

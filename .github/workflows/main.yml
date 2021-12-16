@@ -45,7 +45,7 @@ jobs:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
           arch: 'win32_mingw${{ matrix.mingw-short-version }}'
-          tools: 'tools_mingw,${{ matrix.mingw-version }},qt.tools.win32_mingw${{ matrix.mingw-short-version }}0'
+          tools: 'tools_mingw,${{ matrix.mingw-version }}.0,qt.tools.win32_mingw${{ matrix.mingw-short-version }}0'
 
       - name: Update PATH
         run: |
