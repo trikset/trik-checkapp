@@ -35,13 +35,13 @@
         <translation>Итого %1 из %2</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="190"/>
-        <location filename="../checker.cpp" line="259"/>
+        <location filename="../checker.cpp" line="188"/>
+        <location filename="../checker.cpp" line="255"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../checker.cpp" line="190"/>
+        <location filename="../checker.cpp" line="188"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>
