@@ -15,7 +15,6 @@
 #include "checker.h"
 
 #include <QProcess>
-#include <QDebug>
 #include <QtConcurrent>
 #include <QProgressDialog>
 #include <QTime>
@@ -185,10 +184,7 @@ void Checker::createHtmlReport(QHash<QString, QList<TaskReport>> &result)
 				color = "";
 				name = QString(tr("Total %1 of %2")).arg(numberOfCorrect[i]).arg(result[key].length());
 			}
-			qDebug() << r.name << r.task;
-			qDebug() << r.error;
 			QString status = isErrorMessage(r.error) ? tr("Error") : tr("Complete");
-			qDebug() << status;
 			body += taskReport.arg(color).arg(name).arg(r.task).arg(status).arg(r.time);
 
 			counter++;
@@ -218,7 +214,6 @@ void Checker::createHtmlReport(QHash<QString, QList<TaskReport>> &result)
 const QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> &options)
 {
 	QStringList result;
-
 	if (options[closeSuccessOption].toBool())
 		result << "--close-on-succes";
 
@@ -234,7 +229,6 @@ const QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> 
 const QStringList Checker::generatePathcerOptions(const QHash<QString, QVariant> &options)
 {
 	QStringList result;
-
 	if (options[resetRP].toBool()) {
 		result << "--rrp";
 	}

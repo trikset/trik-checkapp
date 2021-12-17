@@ -35,7 +35,7 @@ jobs:
       - name: Configure git
         run: |
             git config --global core.symlinks true
-            git config --global core.autocrlf true
+            git config --global core.autocrlf input
 
       - uses: actions/checkout@v2
 
@@ -45,7 +45,7 @@ jobs:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
           arch: 'win32_mingw${{ matrix.mingw-short-version }}'
-          tools: 'tools_mingw,${{ matrix.mingw-version }},qt.tools.win32_mingw${{ matrix.mingw-short-version }}0'
+          tools: 'tools_mingw,${{ matrix.mingw-version }}.0,qt.tools.win32_mingw${{ matrix.mingw-short-version }}0'
 
       - name: Update PATH
         run: |
@@ -62,6 +62,21 @@ jobs:
              qmake --version
              make --version
              g++ --version
+
+      - name: Check translations
+        run: |
+            rm aqtinstall.log
+            lupdate trikCheckApp.pro
+            gitStatus=$(git status -s && git submodule --quiet foreach --recursive git status -s)
+            if [ ! -z "$gitStatus" ]
+            then
+              echo $gitStatus
+              echo git status must be clean
+              git diff 
+              false
+            else
+              true
+            fi
 
       - name: QMake
         run: 'qmake trikCheckApp.pro CONFIG+=release'
