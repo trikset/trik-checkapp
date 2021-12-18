@@ -120,5 +120,15 @@
         <source>Perform a check ...</source>
         <translation>Выполнить проверку ...</translation>
     </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="187"/>
+        <source>There is no .qrs or .tsj files in solutions directory.</source>
+        <translation>В каталоге решений нет файлов .qrs или .tsj.</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="194"/>
+        <source>There is no .xml files in fields directory.</source>
+        <translation>В каталоге полей нет файлов .xml.</translation>
+    </message>
 </context>
 </TS>

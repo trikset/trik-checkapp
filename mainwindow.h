@@ -55,6 +55,10 @@ private:
 
 	void saveSettings();
 
+	void showNoQrsTsjMessage();
+
+	void showNoFieldsMessage();
+
 	Ui::MainWindow *mUi;
 	QDir mTasksDir;
 	QDir mFieldsDir;
