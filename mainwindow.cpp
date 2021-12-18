@@ -16,8 +16,8 @@
 #include "ui_mainwindow.h"
 
 #include <QtConcurrent/QtConcurrent>
-#include <QDebug>
 #include <QFileDialog>
+#include <QMessageBox>
 #include <QProgressDialog>
 #include <QSettings>
 
@@ -49,11 +49,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_runCheckButton_clicked()
 {
-	// TODO: Separate .qrs and .tsj
-	// There must be some sort of separation, because if there are both .qrs and .tsj files in the directory,
-	// it will cause problems.
-	auto qrsList = mTasksDir.entryInfoList({"*.qrs", "*.tsj"}, QDir::Files);
+	auto qrsList = mTasksDir.entryInfoList({"*.qrs"}, QDir::Files);
+	if (qrsList.isEmpty()) {
+		qrsList = mTasksDir.entryInfoList({"*.tsj"}, QDir::Files);
+	}
+	if (qrsList.isEmpty()) {
+		showNoQrsTsjMessage();
+		return;
+	}
+
 	auto fields = mFieldsDir.entryInfoList({"*.xml"}, QDir::Files);
+	if (fields.isEmpty()) {
+		showNoFieldsMessage();
+		return;
+	}
 
 	Checker checker(mTasksPath);
 	checker.revieweTasks(qrsList, fields, mDirOptions[mTasksPath]);
@@ -62,16 +71,23 @@ void MainWindow::on_runCheckButton_clicked()
 void MainWindow::on_chooseField_clicked()
 {
 	mFieldsDir = chooseDirectoryDialog();
+	if (mFieldsDir.entryInfoList({"*.xml"}, QDir::Files).isEmpty()) {
+		showNoFieldsMessage();
+	}
+
 	auto path = QDir::toNativeSeparators(mFieldsDir.absolutePath());
-	path = QDir::toNativeSeparators(path);
 	mUi->xmlFieldsDir->setText(path);
-	qDebug() << path;
 	mDirOptions[mTasksPath][xmlFieldsDir] = path;
 }
 
 void MainWindow::on_openTasks_clicked()
 {
 	mTasksDir = chooseDirectoryDialog();
+	if (mTasksDir.entryInfoList({"*.qrs", "*.tsj"}, QDir::Files).isEmpty()) {
+		showNoQrsTsjMessage();
+		return;
+	}
+
 	mTasksPath = QDir::toNativeSeparators(mTasksDir.absolutePath());
 	mUi->currentTasksDir->setText(mTasksPath);
 
@@ -138,10 +154,8 @@ void MainWindow::resetUiOptions(const QHash<QString, QVariant> &options)
 
 void MainWindow::loadSettings()
 {
-	qDebug() << mLocalSettings;
 	QSettings settings(mLocalSettings, QSettings::IniFormat);
 	auto groups = settings.childGroups();
-	qDebug() << groups;
 	for (auto &&g : groups) {
 		QHash <QString, QVariant> options;
 
@@ -161,9 +175,22 @@ void MainWindow::saveSettings()
 	for (auto &&dir: mDirOptions.keys()) {
 		settings.beginGroup(dir);
 		for (auto &&option: mDirOptions[dir].keys()) {
-			qDebug() << option << mDirOptions[dir][option];
 			settings.setValue(option, mDirOptions[dir][option]);
 		}
 		settings.endGroup();
 	}
+}
+
+void MainWindow::showNoQrsTsjMessage()
+{
+	QMessageBox msgBox;
+	msgBox.setText(tr("There is no .qrs or .tsj files in solutions directory."));
+	msgBox.exec();
+}
+
+void MainWindow::showNoFieldsMessage()
+{
+	QMessageBox msgBox;
+	msgBox.setText(tr("There is no .xml files in fields directory."));
+	msgBox.exec();
 }
