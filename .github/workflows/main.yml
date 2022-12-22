@@ -30,7 +30,7 @@ jobs:
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '6.2.*'
+            qt-version: '6.2.0'
 
     defaults:
       run:
