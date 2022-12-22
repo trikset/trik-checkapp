@@ -27,6 +27,11 @@ jobs:
           - os: macos-latest
             os-name: mac
             qt-version: '5.12.10'
+
+          - os: ubuntu-latest
+            os-name: linux
+            qt-version: '6.2.*'
+
     defaults:
       run:
         shell: bash
