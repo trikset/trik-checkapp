@@ -16,20 +16,24 @@ jobs:
         include:
           - os: windows-latest
             os-name: windows
-            qt-version: '5.12.10'
+            qt-version: '5.12'
             mingw-short-version: 73
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '5.12.10'
-
-          - os: macos-latest
-            os-name: mac
-            qt-version: '5.12.10'
+            qt-version: '5.12'
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '6.2.0'
+            qt-version: '5.15'
+
+          - os: macos-latest
+            os-name: mac
+            qt-version: '5.12'
+
+          - os: ubuntu-latest
+            os-name: linux
+            qt-version: '6'
 
     defaults:
       run:
