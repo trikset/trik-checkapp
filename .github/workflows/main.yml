@@ -17,7 +17,6 @@ jobs:
           - os: windows-latest
             os-name: windows
             qt-version: '5.12.10'
-            mingw-version: 7.3
             mingw-short-version: 73
 
           - os: ubuntu-latest
@@ -50,7 +49,7 @@ jobs:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
           arch: ${{ matrix.mingw-short-version != '' && format('win32_mingw{0}', matrix.mingw-short-version) || '' }}
-          tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{1}0', matrix.mingw-version, matrix.mingw-short-version) || '' }}
+          tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{0}0', matrix.mingw-short-version) || '' }}
 
       - name: Update PATH
         run: |
