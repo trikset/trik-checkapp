@@ -4,7 +4,7 @@
 <context>
     <name>Checker</name>
     <message>
-        <location filename="../checker.cpp" line="+56"/>
+        <location filename="../checker.cpp" line="+55"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
@@ -41,13 +41,13 @@
         <translation>Все</translation>
     </message>
     <message>
-        <location line="+75"/>
+        <location line="+78"/>
         <location line="+10"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location line="-82"/>
+        <location line="-85"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>
