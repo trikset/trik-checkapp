@@ -13,18 +13,22 @@ jobs:
             os-name: windows
             qt-version: '5.12'
             mingw-short-version: 73
+            qt5-extra-archives: 'qtmultimedia  qtimageformats qtwinextras opengl32sw i686'
 
           - os: ubuntu-latest
             os-name: linux
             qt-version: '5.12'
+            qt5-extra-archives: 'qtmultimedia  qtimageformats qtx11extras icu'
 
           - os: ubuntu-latest
             os-name: linux
             qt-version: '5.15'
+            qt5-extra-archives: 'qtmultimedia  qtimageformats qtx11extras icu'
 
           - os: macos-12
             os-name: mac
             qt-version: '5.12'
+            qt5-extra-archives: 'qtmultimedia  qtimageformats qtmacextras'
 
           - os: ubuntu-latest
             os-name: linux
@@ -47,12 +51,13 @@ jobs:
         with:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
-          modules: ${{format('{0}', (startsWith(matrix.qt-version, '6') && ' qt5compat qtmultimedia' || ''))}}
+          modules: ${{format('{0}', (startsWith(matrix.qt-version, '6') && ' qt5compat qtmultimedia qtimageformats' || ''))}}
           arch: ${{ matrix.mingw-short-version != '' && format('win32_mingw{0}', matrix.mingw-short-version) || '' }}
           tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{0}0', matrix.mingw-short-version) || '' }}
-          cache: true
+          archives: ${{ format('qttools qtsvg qtbase qttranslations {0}', matrix.qt5-extra-archives) }}
           add-tools-to-path: true
-
+          # cache: true
+          
       - name: Update PATH
         run: |
              set -xue
