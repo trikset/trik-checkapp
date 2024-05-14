@@ -1,11 +1,6 @@
 name: GitHub CI
 
-on:
-  push:
-    branches: '**'
-  pull_request:
-    branches: '**'
-  workflow_dispatch:
+on: [ push, pull_request, workflow_dispatch]
 
 jobs:
   build:
@@ -47,9 +42,8 @@ jobs:
 
       - uses: actions/checkout@v4
 
-      - name: Install Qt
-        # pin to some SHA, until v3.4 or v4 is released later
-        uses: jurplel/install-qt-action@da8fcfc956e466ea041d5e923c814860311ec6f2
+      - name: Install Qt        
+        uses: jurplel/install-qt-action@v3
         with:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
@@ -58,6 +52,14 @@ jobs:
           tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{0}0', matrix.mingw-short-version) || '' }}
           cache: true
           add-tools-to-path: true
+
+      - name: Update PATH
+        run: |
+             set -xue
+             cygpath -w /usr/bin >> $GITHUB_PATH
+             cygpath -w "${IQTA_TOOLS}/mingw${{matrix.mingw-short-version}}0_32/bin" >> $GITHUB_PATH
+             cygpath -w "${Qt${{startsWith(matrix.qt-version, '6') && '6_DIR' || '5_Dir' }}}/bin" >> $GITHUB_PATH
+        if: ${{ matrix.os-name == 'windows' }}
 
       - name: Check available tools
         run: |
