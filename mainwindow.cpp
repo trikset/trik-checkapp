@@ -25,14 +25,14 @@
 #include "optionsAliases.h"
 
 MainWindow::MainWindow(QWidget *parent)
-	: QMainWindow(parent)
-	, mUi(new Ui::MainWindow)
-	, mTasksDir(QDir::currentPath())
-	, mLocalSettings(QDir::toNativeSeparators(mTasksDir.absolutePath() + "/checkapp.ini"))
+    : QMainWindow(parent)
+    , mUi(new Ui::MainWindow)
+    , mTasksDir(QDir::currentPath())
+    , mLocalSettings(QDir::toNativeSeparators(mTasksDir.absolutePath() + "/checkapp.ini"))
 {
 	mUi->setupUi(this);
 
-	connect(mUi->backgroundOption, &QGroupBox::toggled, [this](bool state){
+	connect(mUi->backgroundOption, &QGroupBox::toggled, this, [this](bool state){
 		mDirOptions[mTasksPath][backgroundOption] = !state;
 		mUi->closeOnSuccessOption->setEnabled(state);
 	});
@@ -63,9 +63,8 @@ void MainWindow::on_runCheckButton_clicked()
 		showNoFieldsMessage();
 		return;
 	}
-
 	Checker checker(mTasksPath);
-	checker.revieweTasks(qrsList, fields, mDirOptions[mTasksPath]);
+	checker.reviewTasks(qrsList, fields, mDirOptions[mTasksPath]);
 }
 
 void MainWindow::on_chooseField_clicked()
@@ -136,19 +135,15 @@ QDir MainWindow::chooseDirectoryDialog()
 	return dialog.directory();
 }
 
+
 void MainWindow::resetUiOptions(const QHash<QString, QVariant> &options)
 {
-	options[closeSuccessOption].toBool() ? mUi->closeOnSuccessOption->setCheckState(Qt::CheckState::Checked)
-										 : mUi->closeOnSuccessOption->setCheckState(Qt::CheckState::Unchecked);
+	mUi->closeOnSuccessOption->setCheckState(options[closeSuccessOption].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
 	mUi->backgroundOption->setChecked(!options[backgroundOption].toBool());
-	options[patchField].toBool() ? mUi->wPPCheckBox->setCheckState(Qt::CheckState::Checked)
-										 : mUi->wPPCheckBox->setCheckState(Qt::CheckState::Unchecked);
-	options[patchWP].toBool() ? mUi->wPcheckBox->setCheckState(Qt::CheckState::Checked)
-										 : mUi->wPcheckBox->setCheckState(Qt::CheckState::Unchecked);
-	options[resetRP].toBool() ? mUi->resetPCheckBox->setCheckState(Qt::CheckState::Checked)
-										 : mUi->resetPCheckBox->setCheckState(Qt::CheckState::Unchecked);
-	options[consoleOption].toBool() ? mUi->resetPCheckBox->setCheckState(Qt::CheckState::Checked)
-										 : mUi->resetPCheckBox->setCheckState(Qt::CheckState::Unchecked);
+	mUi->wPPCheckBox->setCheckState(options[patchField].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+	mUi->wPcheckBox->setCheckState(options[patchWP].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+	mUi->resetPCheckBox->setCheckState(options[resetRP].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+	mUi->showConsoleCheckBox->setCheckState(options[consoleOption].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
 	mUi->xmlFieldsDir->setText(options[xmlFieldsDir].toString());
 }
 
@@ -160,7 +155,9 @@ void MainWindow::loadSettings()
 		QHash <QString, QVariant> options;
 
 		settings.beginGroup(g);
-		for (auto &&key : defaultOptions.keys()) {
+
+		auto defaultOptionsKeys = defaultOptions.keys();
+		for (auto &&key : defaultOptionsKeys) {
 			options[key] = settings.value(key, defaultOptions[key]);
 		}
 		settings.endGroup();
@@ -172,9 +169,11 @@ void MainWindow::loadSettings()
 void MainWindow::saveSettings()
 {
 	QSettings settings(mLocalSettings, QSettings::IniFormat);
-	for (auto &&dir: mDirOptions.keys()) {
+	auto mDirOptionsKeys = mDirOptions.keys();
+	for (auto &&dir: mDirOptionsKeys) {
 		settings.beginGroup(dir);
-		for (auto &&option: mDirOptions[dir].keys()) {
+		auto options = mDirOptions[dir].keys();
+		for (auto &&option: options) {
 			settings.setValue(option, mDirOptions[dir][option]);
 		}
 		settings.endGroup();

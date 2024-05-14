@@ -28,9 +28,9 @@ const QString patchWP = "patchWroldAndPosition";
 const QString resetRP = "resetRobotPosition";
 
 const QHash <QString, QVariant> defaultOptions {{closeSuccessOption, true}
-											   ,{backgroundOption, false}
-											   ,{consoleOption, false}
-											   ,{xmlFieldsDir, ""}
-											   ,{patchField, true}
-											   ,{patchWP, false}};
+					       ,{backgroundOption, false}
+					       ,{consoleOption, false}
+					       ,{xmlFieldsDir, ""}
+					       ,{patchField, true}
+					       ,{patchWP, false}};
 
