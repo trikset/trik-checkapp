@@ -27,13 +27,13 @@ jobs:
             os-name: linux
             qt-version: '5.15'
 
-          - os: macos-latest
+          - os: macos-12
             os-name: mac
             qt-version: '5.12'
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '6'
+            qt-version: '6.5'
 
     defaults:
       run:
@@ -52,6 +52,7 @@ jobs:
         with:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
+          modules: ${{join([(startsWith(matrix.qt-version, '6') && 'qt5compat ' || ''), 'qtmultimedia'], ' ')}}
           arch: ${{ matrix.mingw-short-version != '' && format('win32_mingw{0}', matrix.mingw-short-version) || '' }}
           tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{0}0', matrix.mingw-short-version) || '' }}
 
@@ -60,7 +61,7 @@ jobs:
              set -xue
              cygpath -w /usr/bin >> $GITHUB_PATH
              cygpath -w "${IQTA_TOOLS}/mingw${{matrix.mingw-short-version}}0_32/bin" >> $GITHUB_PATH
-             cygpath -w "${Qt5_Dir}/bin" >> $GITHUB_PATH
+             cygpath -w "${Qt${{startsWith(matrix.qt-version, '6') && '6' || '5' }}_DIR}/bin" >> $GITHUB_PATH
         if: ${{ matrix.os-name == 'windows' }}
 
       - name: Check available tools
@@ -87,7 +88,7 @@ jobs:
             fi
 
       - name: QMake
-        run: 'qmake trikCheckApp.pro CONFIG+=release'
+        run: "qmake${{startsWith(matrix.qt-version, '6') && '6' || '' }} trikCheckApp.pro CONFIG+=release"
 
       - name: QMake all
         timeout-minutes: 1
