@@ -52,7 +52,7 @@ jobs:
         with:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
-          modules: ${{format('qtmultimedia {0}', (startsWith(matrix.qt-version, '6') && ' qt5compat' || ''))}}
+          modules: ${{format('{0}', (startsWith(matrix.qt-version, '6') && ' qt5compat qtmultimedia' || ''))}}
           arch: ${{ matrix.mingw-short-version != '' && format('win32_mingw{0}', matrix.mingw-short-version) || '' }}
           tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{0}0', matrix.mingw-short-version) || '' }}
 
