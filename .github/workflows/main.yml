@@ -1,11 +1,6 @@
 name: GitHub CI
 
-on:
-  push:
-    branches:
-  pull_request:
-    branches:
-  workflow_dispatch:
+on: [ push, pull_request, workflow_dispatch]
 
 jobs:
   build:
@@ -16,21 +11,28 @@ jobs:
         include:
           - os: windows-latest
             os-name: windows
-            qt-version: '5.12.10'
-            mingw-version: 7.3
+            qt-version: '5.12'
             mingw-short-version: 73
+            qt5-extra-archives: 'qtwinextras opengl32sw i686'
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '5.12.10'
+            qt-version: '5.12'
+            qt5-extra-archives: 'qtx11extras icu'
 
-          - os: macos-latest
+          - os: ubuntu-latest
+            os-name: linux
+            qt-version: '5.15'
+            qt5-extra-archives: 'qtx11extras icu'
+
+          - os: macos-12
             os-name: mac
-            qt-version: '5.12.10'
+            qt-version: '5.12'
+            qt5-extra-archives: 'qtmacextras'
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '6.2.0'
+            qt-version: '6.5'            
 
     defaults:
       run:
@@ -42,22 +44,26 @@ jobs:
             git config --global core.symlinks true
             git config --global core.autocrlf input
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Install Qt
+      - name: Install Qt        
         uses: jurplel/install-qt-action@v3
         with:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
-          arch: 'win32_mingw${{ matrix.mingw-short-version }}'
-          tools: 'tools_mingw,${{ matrix.mingw-version }}.0,qt.tools.win32_mingw${{ matrix.mingw-short-version }}0'
-
+          modules: ${{ startsWith(matrix.qt-version, '6') && 'qt5compat qtmultimedia qtimageformats' || '' }}
+          arch: ${{ matrix.mingw-short-version != '' && format('win32_mingw{0}', matrix.mingw-short-version) || '' }}
+          tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{0}0', matrix.mingw-short-version) || '' }}
+          archives: ${{ startsWith(matrix.qt-version, '5') && format('qttools qtsvg qtbase qttranslations qtmultimedia  qtimageformats {0}', matrix.qt5-extra-archives) || '' }}
+          add-tools-to-path: true
+          # cache: true
+          
       - name: Update PATH
         run: |
              set -xue
              cygpath -w /usr/bin >> $GITHUB_PATH
              cygpath -w "${IQTA_TOOLS}/mingw${{matrix.mingw-short-version}}0_32/bin" >> $GITHUB_PATH
-             cygpath -w "${Qt5_Dir}/bin" >> $GITHUB_PATH
+             cygpath -w "${Qt${{startsWith(matrix.qt-version, '6') && '6_DIR' || '5_Dir' }}}/bin" >> $GITHUB_PATH
         if: ${{ matrix.os-name == 'windows' }}
 
       - name: Check available tools
@@ -84,7 +90,7 @@ jobs:
             fi
 
       - name: QMake
-        run: 'qmake trikCheckApp.pro CONFIG+=release'
+        run: qmake trikCheckApp.pro CONFIG+=release
 
       - name: QMake all
         timeout-minutes: 1
