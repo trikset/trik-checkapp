@@ -2,9 +2,9 @@ name: GitHub CI
 
 on:
   push:
-    branches:
+    branches: '**'
   pull_request:
-    branches:
+    branches: '**'
   workflow_dispatch:
 
 jobs:
@@ -48,21 +48,16 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v3
+        # pin to some SHA, until v3.4 or v4 is released later
+        uses: jurplel/install-qt-action@da8fcfc956e466ea041d5e923c814860311ec6f2
         with:
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
           modules: ${{format('{0}', (startsWith(matrix.qt-version, '6') && ' qt5compat qtmultimedia' || ''))}}
           arch: ${{ matrix.mingw-short-version != '' && format('win32_mingw{0}', matrix.mingw-short-version) || '' }}
           tools: ${{ matrix.mingw-short-version != '' && format('tools_mingw,qt.tools.win32_mingw{0}0', matrix.mingw-short-version) || '' }}
-
-      - name: Update PATH
-        run: |
-             set -xue
-             cygpath -w /usr/bin >> $GITHUB_PATH
-             cygpath -w "${IQTA_TOOLS}/mingw${{matrix.mingw-short-version}}0_32/bin" >> $GITHUB_PATH
-             cygpath -w "${Qt${{startsWith(matrix.qt-version, '6') && '6' || '5' }}_DIR}/bin" >> $GITHUB_PATH
-        if: ${{ matrix.os-name == 'windows' }}
+          cache: true
+          add-tools-to-path: true
 
       - name: Check available tools
         run: |
