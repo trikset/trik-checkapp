@@ -43,7 +43,7 @@ jobs:
         run: |
             git config --global core.symlinks true
             git config --global core.autocrlf input
-            cygpath -w /usr/bin >> $GITHUB_PATH
+            cygpath -w /usr/bin >> $GITHUB_PATH || :
 
       - uses: actions/checkout@v4
 
