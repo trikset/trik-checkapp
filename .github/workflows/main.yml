@@ -43,6 +43,7 @@ jobs:
         run: |
             git config --global core.symlinks true
             git config --global core.autocrlf input
+            cygpath -w /usr/bin >> $GITHUB_PATH
 
       - uses: actions/checkout@v4
 
@@ -58,17 +59,10 @@ jobs:
           add-tools-to-path: true
           # cache: true
           
-      - name: Update PATH
-        run: |
-             set -xue
-             cygpath -w /usr/bin >> $GITHUB_PATH
-             cygpath -w "${IQTA_TOOLS}/mingw${{matrix.mingw-short-version}}0_32/bin" >> $GITHUB_PATH
-             cygpath -w "${Qt${{startsWith(matrix.qt-version, '6') && '6_DIR' || '5_Dir' }}}/bin" >> $GITHUB_PATH
-        if: ${{ matrix.os-name == 'windows' }}
-
       - name: Check available tools
         run: |
              set -xueo pipefail
+             echo $PATH
              uname -a
              qmake --version
              make --version
