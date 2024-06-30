@@ -1,0 +1,22 @@
+name: Clang-tidy and clang-format
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    # permissions:
+     # contents: read
+     # pull-requests: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cpp-linter/cpp-linter-action@v2.12.0
+        id: linter
+        with:
+          style: 'file'
+          tidy-checks: ''
+          version: 15
+      # lines-changed-only: true
+      - name: Exit
+        if: steps.linter.outputs.checks-failed > 0
+        run: exit 1
