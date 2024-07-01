@@ -15,14 +15,14 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QDebug>
+#include <QProcessEnvironment>
 #include <QStyleFactory>
 #include <QTranslator>
-#include <QProcessEnvironment>
-#include <QDebug>
 
 int main(int argc, char *argv[])
 {
-	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 	QApplication::setStyle(QStyleFactory::create("Fusion"));
 	QApplication a(argc, argv);
 
@@ -30,9 +30,8 @@ int main(int argc, char *argv[])
 	const QString translation_file = ":/translations/checkapp_" + QLocale::system().name() + ".qm";
 	if (!translator.load(translation_file)) {
 		qDebug() << "Failed to load translation file: " << translation_file;
-	}
-	else {
-	       a.installTranslator(&translator);
+    } else {
+        a.installTranslator(&translator);
 	}
 
 	MainWindow w;

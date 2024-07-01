@@ -18,18 +18,20 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
 
-public:
-	MainWindow(QWidget *parent = nullptr);
-	~MainWindow();
+  public:
+    explicit MainWindow(QWidget *parent = nullptr);
+    ~MainWindow() override;
 
-private slots:
+  private slots:
 	void on_chooseField_clicked();
 
 	void on_openTasks_clicked();
@@ -44,20 +46,20 @@ private slots:
 
 	void on_showConsoleCheckBox_stateChanged(int state);
 
-	void on_closeOnSuccessOption_stateChanged(int arg1);
+    void on_closeOnSuccessOption_stateChanged(int state);
 
-private:
-	QDir chooseDirectoryDialog();
+  private:
+    static QDir chooseDirectoryDialog();
 
-	void resetUiOptions(const QHash <QString, QVariant> &options);
+    void resetUiOptions(const QHash<QString, QVariant> &options);
 
 	void loadSettings();
 
 	void saveSettings();
 
-	void showNoQrsTsjMessage();
+    static void showNoQrsTsjMessage();
 
-	void showNoFieldsMessage();
+    static void showNoFieldsMessage();
 
 	Ui::MainWindow *mUi;
 	QDir mTasksDir;
@@ -66,5 +68,5 @@ private:
 	QDir mStudioDir;
 	QString mLocalSettings;
 
-	QHash <QString, QHash <QString, QVariant>> mDirOptions;
+    QHash<QString, QHash<QString, QVariant>> mDirOptions;
 };
