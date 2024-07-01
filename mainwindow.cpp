@@ -30,167 +30,167 @@ MainWindow::MainWindow(QWidget *parent)
   , mTasksDir(QDir::currentPath())
   , mLocalSettings(QDir::toNativeSeparators(mTasksDir.absolutePath() + "/checkapp.ini"))
 {
-	mUi->setupUi(this);
+    mUi->setupUi(this);
 
     connect(mUi->backgroundOption, &QGroupBox::toggled, this, [this](bool state) {
-		mDirOptions[mTasksPath][backgroundOption] = !state;
-		mUi->closeOnSuccessOption->setEnabled(state);
-	});
+        mDirOptions[mTasksPath][backgroundOption] = !state;
+        mUi->closeOnSuccessOption->setEnabled(state);
+    });
 
-	loadSettings();
-	mUi->runCheckButton->setEnabled(!mTasksPath.isEmpty());
+    loadSettings();
+    mUi->runCheckButton->setEnabled(!mTasksPath.isEmpty());
 }
 
 MainWindow::~MainWindow()
 {
-	saveSettings();
-	delete mUi;
+    saveSettings();
+    delete mUi;
 }
 
 void MainWindow::on_runCheckButton_clicked()
 {
     auto qrsList = mTasksDir.entryInfoList({ "*.qrs" }, QDir::Files);
-	if (qrsList.isEmpty()) {
+    if (qrsList.isEmpty()) {
         qrsList = mTasksDir.entryInfoList({ "*.tsj" }, QDir::Files);
-	}
-	if (qrsList.isEmpty()) {
-		showNoQrsTsjMessage();
-		return;
-	}
+    }
+    if (qrsList.isEmpty()) {
+        showNoQrsTsjMessage();
+        return;
+    }
 
     auto fields = mFieldsDir.entryInfoList({ "*.xml" }, QDir::Files);
-	if (fields.isEmpty()) {
-		showNoFieldsMessage();
-		return;
-	}
-	Checker checker(mTasksPath);
-	checker.reviewTasks(qrsList, fields, mDirOptions[mTasksPath]);
+    if (fields.isEmpty()) {
+        showNoFieldsMessage();
+        return;
+    }
+    Checker checker(mTasksPath);
+    checker.reviewTasks(qrsList, fields, mDirOptions[mTasksPath]);
 }
 
 void MainWindow::on_chooseField_clicked()
 {
-	mFieldsDir = chooseDirectoryDialog();
+    mFieldsDir = chooseDirectoryDialog();
     if (mFieldsDir.entryInfoList({ "*.xml" }, QDir::Files).isEmpty()) {
-		showNoFieldsMessage();
-	}
+        showNoFieldsMessage();
+    }
 
-	auto path = QDir::toNativeSeparators(mFieldsDir.absolutePath());
-	mUi->xmlFieldsDir->setText(path);
-	mDirOptions[mTasksPath][xmlFieldsDir] = path;
+    auto path = QDir::toNativeSeparators(mFieldsDir.absolutePath());
+    mUi->xmlFieldsDir->setText(path);
+    mDirOptions[mTasksPath][xmlFieldsDir] = path;
 }
 
 void MainWindow::on_openTasks_clicked()
 {
-	mTasksDir = chooseDirectoryDialog();
+    mTasksDir = chooseDirectoryDialog();
     if (mTasksDir.entryInfoList({ "*.qrs", "*.tsj" }, QDir::Files).isEmpty()) {
-		showNoQrsTsjMessage();
-		return;
-	}
+        showNoQrsTsjMessage();
+        return;
+    }
 
-	mTasksPath = QDir::toNativeSeparators(mTasksDir.absolutePath());
-	mUi->currentTasksDir->setText(mTasksPath);
+    mTasksPath = QDir::toNativeSeparators(mTasksDir.absolutePath());
+    mUi->currentTasksDir->setText(mTasksPath);
 
-	if (!mDirOptions.contains(mTasksPath)) {
-		mDirOptions[mTasksPath] = defaultOptions;
-	}
+    if (!mDirOptions.contains(mTasksPath)) {
+        mDirOptions[mTasksPath] = defaultOptions;
+    }
 
-	auto xmlField = mDirOptions[mTasksPath][xmlFieldsDir].toString();
-	mFieldsDir = xmlField.isEmpty() ? mTasksDir : QDir(xmlField);
-	mDirOptions[mTasksPath][xmlFieldsDir] = xmlField.isEmpty() ? mTasksPath : xmlField;
+    auto xmlField = mDirOptions[mTasksPath][xmlFieldsDir].toString();
+    mFieldsDir = xmlField.isEmpty() ? mTasksDir : QDir(xmlField);
+    mDirOptions[mTasksPath][xmlFieldsDir] = xmlField.isEmpty() ? mTasksPath : xmlField;
 
-	resetUiOptions(mDirOptions[mTasksPath]);
-	mUi->runCheckButton->setEnabled(true);
+    resetUiOptions(mDirOptions[mTasksPath]);
+    mUi->runCheckButton->setEnabled(true);
 }
 
 void MainWindow::on_wPcheckBox_stateChanged(int state)
 {
-	mDirOptions[mTasksPath][patchWP] = state == Qt::CheckState::Checked;
+    mDirOptions[mTasksPath][patchWP] = state == Qt::CheckState::Checked;
 }
 
 void MainWindow::on_wPPCheckBox_stateChanged(int state)
 {
-	mDirOptions[mTasksPath][patchField] = state == Qt::CheckState::Checked;
+    mDirOptions[mTasksPath][patchField] = state == Qt::CheckState::Checked;
 }
 
 void MainWindow::on_resetPCheckBox_stateChanged(int state)
 {
-	mDirOptions[mTasksPath][resetRP] = state == Qt::CheckState::Checked;
+    mDirOptions[mTasksPath][resetRP] = state == Qt::CheckState::Checked;
 }
 
 void MainWindow::on_showConsoleCheckBox_stateChanged(int state)
 {
-	mDirOptions[mTasksPath][consoleOption] = state == Qt::CheckState::Checked;
+    mDirOptions[mTasksPath][consoleOption] = state == Qt::CheckState::Checked;
 }
 
 void MainWindow::on_closeOnSuccessOption_stateChanged(int state)
 {
-	mDirOptions[mTasksPath][closeSuccessOption] = state == Qt::CheckState::Checked;
+    mDirOptions[mTasksPath][closeSuccessOption] = state == Qt::CheckState::Checked;
 }
 
 QDir MainWindow::chooseDirectoryDialog()
 {
-	QFileDialog dialog;
-	dialog.setFileMode(QFileDialog::Directory);
-	dialog.exec();
-	return dialog.directory();
+    QFileDialog dialog;
+    dialog.setFileMode(QFileDialog::Directory);
+    dialog.exec();
+    return dialog.directory();
 }
 
 void MainWindow::resetUiOptions(const QHash<QString, QVariant> &options)
 {
     mUi->closeOnSuccessOption->setCheckState(options[closeSuccessOption].toBool() ? Qt::CheckState::Checked
                                                                                   : Qt::CheckState::Unchecked);
-	mUi->backgroundOption->setChecked(!options[backgroundOption].toBool());
-	mUi->wPPCheckBox->setCheckState(options[patchField].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
-	mUi->wPcheckBox->setCheckState(options[patchWP].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
-	mUi->resetPCheckBox->setCheckState(options[resetRP].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    mUi->backgroundOption->setChecked(!options[backgroundOption].toBool());
+    mUi->wPPCheckBox->setCheckState(options[patchField].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    mUi->wPcheckBox->setCheckState(options[patchWP].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+    mUi->resetPCheckBox->setCheckState(options[resetRP].toBool() ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
     mUi->showConsoleCheckBox->setCheckState(options[consoleOption].toBool() ? Qt::CheckState::Checked
                                                                             : Qt::CheckState::Unchecked);
-	mUi->xmlFieldsDir->setText(options[xmlFieldsDir].toString());
+    mUi->xmlFieldsDir->setText(options[xmlFieldsDir].toString());
 }
 
 void MainWindow::loadSettings()
 {
-	QSettings settings(mLocalSettings, QSettings::IniFormat);
-	auto groups = settings.childGroups();
-	for (auto &&g : groups) {
+    QSettings settings(mLocalSettings, QSettings::IniFormat);
+    auto groups = settings.childGroups();
+    for (auto &&g : groups) {
         QHash<QString, QVariant> options;
 
-		settings.beginGroup(g);
+        settings.beginGroup(g);
 
-		auto defaultOptionsKeys = defaultOptions.keys();
-		for (auto &&key : defaultOptionsKeys) {
-			options[key] = settings.value(key, defaultOptions[key]);
-		}
-		settings.endGroup();
+        auto defaultOptionsKeys = defaultOptions.keys();
+        for (auto &&key : defaultOptionsKeys) {
+            options[key] = settings.value(key, defaultOptions[key]);
+        }
+        settings.endGroup();
 
-		mDirOptions[g] = options;
-	}
+        mDirOptions[g] = options;
+    }
 }
 
 void MainWindow::saveSettings()
 {
-	QSettings settings(mLocalSettings, QSettings::IniFormat);
-	auto mDirOptionsKeys = mDirOptions.keys();
+    QSettings settings(mLocalSettings, QSettings::IniFormat);
+    auto mDirOptionsKeys = mDirOptions.keys();
     for (auto &&dir : mDirOptionsKeys) {
-		settings.beginGroup(dir);
-		auto options = mDirOptions[dir].keys();
+        settings.beginGroup(dir);
+        auto options = mDirOptions[dir].keys();
         for (auto &&option : options) {
-			settings.setValue(option, mDirOptions[dir][option]);
-		}
-		settings.endGroup();
-	}
+            settings.setValue(option, mDirOptions[dir][option]);
+        }
+        settings.endGroup();
+    }
 }
 
 void MainWindow::showNoQrsTsjMessage()
 {
-	QMessageBox msgBox;
-	msgBox.setText(tr("There is no .qrs or .tsj files in solutions directory."));
-	msgBox.exec();
+    QMessageBox msgBox;
+    msgBox.setText(tr("There is no .qrs or .tsj files in solutions directory."));
+    msgBox.exec();
 }
 
 void MainWindow::showNoFieldsMessage()
 {
-	QMessageBox msgBox;
-	msgBox.setText(tr("There is no .xml files in fields directory."));
-	msgBox.exec();
+    QMessageBox msgBox;
+    msgBox.setText(tr("There is no .xml files in fields directory."));
+    msgBox.exec();
 }

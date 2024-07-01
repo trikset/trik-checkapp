@@ -23,18 +23,18 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-	QApplication::setStyle(QStyleFactory::create("Fusion"));
-	QApplication a(argc, argv);
+    QApplication::setStyle(QStyleFactory::create("Fusion"));
+    QApplication a(argc, argv);
 
-	QTranslator translator;
-	const QString translation_file = ":/translations/checkapp_" + QLocale::system().name() + ".qm";
-	if (!translator.load(translation_file)) {
-		qDebug() << "Failed to load translation file: " << translation_file;
+    QTranslator translator;
+    const QString translation_file = ":/translations/checkapp_" + QLocale::system().name() + ".qm";
+    if (!translator.load(translation_file)) {
+        qDebug() << "Failed to load translation file: " << translation_file;
     } else {
         a.installTranslator(&translator);
-	}
+    }
 
-	MainWindow w;
-	w.show();
-	return a.exec();
+    MainWindow w;
+    w.show();
+    return a.exec();
 }
