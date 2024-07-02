@@ -82,14 +82,46 @@ jobs:
             else
               true
             fi
+            
+      - name: Install dependencies
+        if: ${{ matrix.os-name == 'linux' }}
+        run: sudo apt-get update && sudo apt-get install bear=3.0.18-1
+
+      - name: Create build dir
+        run: mkdir -p build
 
       - name: QMake
-        run: qmake trikCheckApp.pro CONFIG+=release
+        run: qmake ../trikCheckApp.pro CONFIG+=release
+        working-directory: ./build
 
       - name: QMake all
         timeout-minutes: 1
         run: make -j $(nproc) qmake_all
+        working-directory: ./build
 
+      - name: Make all with bear
+        timeout-minutes: 10
+        if: ${{ matrix.os-name == 'linux' }}
+        run: bear -- make -j $(nproc) all
+        working-directory: ./build
+    
       - name: Make all
         timeout-minutes: 10
-        run: make -j $(nproc) all
+        if: ${{ matrix.os-name != 'linux' }}
+        run: make -j $(nproc) all 
+        working-directory: ./build
+
+      - name: Lint
+        if: ${{ matrix.os-name == 'linux'}}
+        uses: cpp-linter/cpp-linter-action@v2.12.0
+        id: linter
+        with:
+          style: 'file'
+          tidy-checks: ''
+          version: 15
+          database: './build'
+          verbosity: 'info'
+          
+      - name: Exit
+        if: ${{ matrix.os-name == 'linux' && steps.linter.outputs.checks-failed > 0 }}
+        run: exit 1
