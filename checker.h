@@ -22,10 +22,10 @@ class Checker : public QObject
 	Q_OBJECT
 
 public:
-	Checker(const QString &tasksPath);
+	explicit Checker(const QString &tasksPath);
 
-	void reviewTasks(const QFileInfoList &qrsInfos, const QFileInfoList &fieldsInfos, const QHash<QString
-			  , QVariant> &options);
+	void reviewTasks(const QFileInfoList &qrsInfos, const QFileInfoList &fieldsInfos,
+			 const QHash<QString, QVariant> &options);
 	struct Task {
 		QFileInfo qrs;
 		const QFileInfoList &fieldsInfos;
@@ -40,7 +40,7 @@ public:
 		QString message;
 		QString level;
 
-		bool operator <(const TaskReport& other) const { return task < other.task; }
+		bool operator<(const TaskReport &other) const { return task < other.task; }
 	};
 
 private:
@@ -54,15 +54,15 @@ private:
 
 	static QPair<QString, QString> handleJsonReport(const QString &filename);
 
-	const QString createHtmlReport(const QHash<QString, QList<TaskReport> > &result);
+	QString createHtmlReport(const QHash<QString, QList<TaskReport>> &result);
 
-	const QStringList generateRunnerOptions(const QHash<QString, QVariant> &options);
+	static QStringList generateRunnerOptions(const QHash<QString, QVariant> &options);
 
-	const QStringList generatePatcherOptions(const QHash<QString, QVariant> &options);
+	static QStringList generatePatcherOptions(const QHash<QString, QVariant> &options);
 
 	static bool isErrorMessage(const QString &message);
 
-	static bool isErrorReport(const TaskReport &message);
+	static bool isErrorReport(const TaskReport &report);
 
 	static QString getErrorMessage(const QString &message);
 

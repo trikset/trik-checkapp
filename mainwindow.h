@@ -18,7 +18,9 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -26,8 +28,8 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	MainWindow(QWidget *parent = nullptr);
-	~MainWindow();
+	explicit MainWindow(QWidget *parent = nullptr);
+	~MainWindow() override;
 
 private slots:
 	void on_chooseField_clicked();
@@ -44,12 +46,12 @@ private slots:
 
 	void on_showConsoleCheckBox_stateChanged(int state);
 
-	void on_closeOnSuccessOption_stateChanged(int arg1);
+	void on_closeOnSuccessOption_stateChanged(int state);
 
 private:
 	QDir chooseDirectoryDialog();
 
-	void resetUiOptions(const QHash <QString, QVariant> &options);
+	void resetUiOptions(const QHash<QString, QVariant> &options);
 
 	void loadSettings();
 
@@ -66,5 +68,5 @@ private:
 	QDir mStudioDir;
 	QString mLocalSettings;
 
-	QHash <QString, QHash <QString, QVariant>> mDirOptions;
+	QHash<QString, QHash<QString, QVariant>> mDirOptions;
 };
