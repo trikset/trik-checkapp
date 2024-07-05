@@ -38,6 +38,10 @@ jobs:
       run:
         shell: bash
 
+    permissions:
+      contents: read
+      pull-requests: read
+
     steps:
       - name: Configure git
         run: |
@@ -123,7 +127,7 @@ jobs:
           verbosity: 'info'
           
       - name: Clang-tidy exit
-        if: ${{ matrix.os-name == 'linux' && steps.linter.outputs.checks-failed > 0 }}
+        if: ${{  matrix.os == 'ubuntu-latest' && steps.linter.outputs.checks-failed > 0 }}
         run: exit 1
 
       - name: Clazy-standalone
