@@ -4,7 +4,7 @@
 <context>
     <name>Checker</name>
     <message>
-        <location filename="../checker.cpp" line="+55"/>
+        <location filename="../checker.cpp" line="+50"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
@@ -19,14 +19,14 @@
         <translation>Создаю отчёт</translation>
     </message>
     <message>
-        <location line="+94"/>
+        <location line="+88"/>
         <source>in</source>
         <translatorcomment>за сколько секунд</translatorcomment>
         <translation>за</translation>
     </message>
     <message>
         <location line="+0"/>
-        <location line="+49"/>
+        <location line="+54"/>
         <source>sec</source>
         <translation>сек</translation>
     </message>
@@ -41,13 +41,13 @@
         <translation>Все</translation>
     </message>
     <message>
-        <location line="+78"/>
-        <location line="+10"/>
+        <location line="+75"/>
+        <location line="+6"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-78"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>
@@ -106,7 +106,7 @@
         <translation>Включить визуализацию проверки</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+20"/>
         <source>Display the robot console</source>
         <translation>Отображать консоль робота</translation>
     </message>
@@ -116,7 +116,7 @@
         <translation>Закрывать окно после проверки задачи</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+19"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Check the solutions on the selected fields&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Проверить решения на выбранных полях&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -126,12 +126,12 @@
         <translation>Выполнить проверку ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+186"/>
+        <location filename="../mainwindow.cpp" line="+172"/>
         <source>There is no .qrs or .tsj files in solutions directory.</source>
         <translation>В каталоге решений нет файлов .qrs или .tsj.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+6"/>
         <source>There is no .xml files in fields directory.</source>
         <translation>В каталоге полей нет файлов .xml.</translation>
     </message>
