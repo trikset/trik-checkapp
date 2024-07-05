@@ -82,14 +82,55 @@ jobs:
             else
               true
             fi
+            
+      - name: Install dependencies
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: sudo apt-get update && sudo apt-get install bear
+
+      - name: Create build dir
+        run: mkdir -p ../build
 
       - name: QMake
-        run: qmake trikCheckApp.pro CONFIG+=release
+        run: qmake ../trik-checkapp/trikCheckApp.pro CONFIG+=release
+        working-directory: ../build
 
       - name: QMake all
         timeout-minutes: 1
         run: make -j $(nproc) qmake_all
+        working-directory: ../build
 
+      - name: Make all with bear
+        timeout-minutes: 10
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: bear -- make -j $(nproc) all
+        working-directory: ../build
+    
       - name: Make all
         timeout-minutes: 10
-        run: make -j $(nproc) all
+        if: ${{ matrix.os != 'ubuntu-latest' }}
+        run: make -j $(nproc) all 
+        working-directory: ../build
+
+      - name: Lint
+        if: ${{ matrix.os == 'ubuntu-latest'}}
+        uses: cpp-linter/cpp-linter-action@v2.12.0
+        id: linter
+        with:
+          style: 'file'
+          tidy-checks: ''
+          version: 15
+          database: '../build'
+          verbosity: 'info'
+          
+      - name: Clang-tidy exit
+        if: ${{ matrix.os-name == 'linux' && steps.linter.outputs.checks-failed > 0 }}
+        run: exit 1
+
+      - name: Clazy-standalone
+        if: ${{ matrix.os == 'ubuntu-latest'}}
+        uses: MinyazevR/clazy-standalone-action@v0.1.0
+        with:
+          checks: 'level0,level1,no-connect-by-name,no-non-pod-global-static'
+          version: 1.11
+          database: '../build'
+
