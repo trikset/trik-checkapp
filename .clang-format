@@ -9,3 +9,6 @@ SortIncludes: false
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterClass: true
+    AfterFunction: true
+    AfterNamespace: false
+    BeforeElse: false
