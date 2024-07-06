@@ -4,7 +4,7 @@
 <context>
     <name>Checker</name>
     <message>
-        <location filename="../checker.cpp" line="+50"/>
+        <location filename="../checker.cpp" line="+52"/>
         <source>Cancel</source>
         <translation>Отменить</translation>
     </message>
@@ -19,7 +19,7 @@
         <translation>Создаю отчёт</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+91"/>
         <source>in</source>
         <translatorcomment>за сколько секунд</translatorcomment>
         <translation>за</translation>
@@ -31,7 +31,7 @@
         <translation>сек</translation>
     </message>
     <message>
-        <location line="+81"/>
+        <location line="+84"/>
         <source>Total %1 of %2</source>
         <translation>Итого %1 из %2</translation>
     </message>
@@ -41,13 +41,13 @@
         <translation>Все</translation>
     </message>
     <message>
-        <location line="+75"/>
-        <location line="+6"/>
+        <location line="+78"/>
+        <location line="+7"/>
         <source>Error</source>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location line="-78"/>
+        <location line="-82"/>
         <source>Complete</source>
         <translation>Выполнено</translation>
     </message>
@@ -126,12 +126,12 @@
         <translation>Выполнить проверку ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="+172"/>
+        <location filename="../mainwindow.cpp" line="+187"/>
         <source>There is no .qrs or .tsj files in solutions directory.</source>
         <translation>В каталоге решений нет файлов .qrs или .tsj.</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>There is no .xml files in fields directory.</source>
         <translation>В каталоге полей нет файлов .xml.</translation>
     </message>
