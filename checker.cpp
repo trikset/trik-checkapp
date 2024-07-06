@@ -27,7 +27,8 @@ const int MAX_VISIBLE_THREADS = 2;
 const QString TEMP_POSTFIX = "tmp_patched_qrs";
 
 #ifdef Q_OS_LINUX
-void gnomeEnvironmentHandler(QProcess &process) {
+void gnomeEnvironmentHandler(QProcess &process)
+{
 	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 	QString xdgCurrentDesktop = env.value("XDG_CURRENT_DESKTOP");
 	if (xdgCurrentDesktop.contains("GNOME")) {
@@ -42,7 +43,8 @@ void gnomeEnvironmentHandler(QProcess &process) {
 Checker::Checker(const QString &tasksPath) : mTasksPath(tasksPath) {}
 
 void Checker::reviewTasks(const QFileInfoList &qrsInfos, const QFileInfoList &fieldsInfos,
-			  const QHash<QString, QVariant> &options) {
+			  const QHash<QString, QVariant> &options)
+{
 	auto patcherOptions = generatePatcherOptions(options);
 	auto runnerOptions = generateRunnerOptions(options);
 
@@ -102,12 +104,14 @@ void Checker::reviewTasks(const QFileInfoList &qrsInfos, const QFileInfoList &fi
 
 void Checker::createTasksEnvironment() { QDir(mTasksPath).mkdir(TEMP_POSTFIX); }
 
-void Checker::removeTasksEnvironment() {
+void Checker::removeTasksEnvironment()
+{
 	const QString tmpDirPath = mTasksPath + QDir::separator() + TEMP_POSTFIX;
 	QDir(tmpDirPath).removeRecursively();
 }
 
-QPair<QString, QString> Checker::handleJsonReport(const QString &filename) {
+QPair<QString, QString> Checker::handleJsonReport(const QString &filename)
+{
 
 	QFile file(filename);
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -142,7 +146,8 @@ QPair<QString, QString> Checker::handleJsonReport(const QString &filename) {
 	return {message, level};
 }
 
-Checker::task_results_t Checker::checkTask(const Checker::Task *t) {
+Checker::task_results_t Checker::checkTask(const Checker::Task *t)
+{
 	const QString ext = QOperatingSystemVersion::currentType() == QOperatingSystemVersion::Windows ? ".exe" : "";
 	const QString tasksPath = t->qrs.absoluteDir().absolutePath();
 	const QString tmpDirPath = tasksPath + QDir::separator() + TEMP_POSTFIX;
@@ -213,13 +218,15 @@ Checker::task_results_t Checker::checkTask(const Checker::Task *t) {
 }
 
 void Checker::reduceFunction(QHash<QString, Checker::task_results_t> &result,
-			     const Checker::task_results_t &intermediate) {
+			     const Checker::task_results_t &intermediate)
+{
 	for (auto &i : intermediate) {
 		result[i.name].append(i);
 	}
 }
 
-QString Checker::executeProcess(const QString &program, const QStringList &options) {
+QString Checker::executeProcess(const QString &program, const QStringList &options)
+{
 	QProcess process;
 
 #ifdef Q_OS_LINUX
@@ -260,7 +267,8 @@ QString Checker::executeProcess(const QString &program, const QStringList &optio
 	return process.readAllStandardError();
 }
 
-QString Checker::createHtmlReport(const QHash<QString, QList<TaskReport>> &result) {
+QString Checker::createHtmlReport(const QHash<QString, QList<TaskReport>> &result)
+{
 	auto qrsNames = result.keys();
 	std::sort(qrsNames.begin(), qrsNames.end());
 
@@ -323,7 +331,8 @@ QString Checker::createHtmlReport(const QHash<QString, QList<TaskReport>> &resul
 	return reportFileInfo.absoluteFilePath();
 }
 
-QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> &options) {
+QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> &options)
+{
 	QStringList result;
 	if (options[closeSuccessOption].toBool()) {
 		result << "--close-on-success";
@@ -340,7 +349,8 @@ QStringList Checker::generateRunnerOptions(const QHash<QString, QVariant> &optio
 	return result;
 }
 
-QStringList Checker::generatePatcherOptions(const QHash<QString, QVariant> &options) {
+QStringList Checker::generatePatcherOptions(const QHash<QString, QVariant> &options)
+{
 	QStringList result;
 	if (options[resetRP].toBool()) {
 		result << "--rrp";
@@ -359,13 +369,15 @@ QStringList Checker::generatePatcherOptions(const QHash<QString, QVariant> &opti
 	return result;
 }
 
-bool Checker::isErrorMessage(const QString &message) {
+bool Checker::isErrorMessage(const QString &message)
+{
 	return message.indexOf(tr("Error")) != -1 or message.indexOf("Error") != -1;
 }
 
 bool Checker::isErrorReport(const TaskReport &report) { return report.level == "error"; }
 
-QString Checker::getErrorMessage(const QString &message) {
+QString Checker::getErrorMessage(const QString &message)
+{
 	auto messageLastIndex = message.lastIndexOf(tr("Error"));
 	auto endErrorIndex = message.indexOf(QChar::LineFeed, messageLastIndex);
 
