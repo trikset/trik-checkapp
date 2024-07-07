@@ -89,7 +89,7 @@ jobs:
             
       - name: Install dependencies
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: sudo apt-get update && sudo apt-get install bear
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends bear
 
       - name: Create build dir
         run: mkdir -p ../build
