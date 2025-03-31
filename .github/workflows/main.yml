@@ -9,25 +9,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-latest
-            os-name: windows
-            qt-version: '5.12'
-            mingw-short-version: 73
-            qt5-extra-archives: 'qtwinextras opengl32sw i686'
+#          - os: windows-latest
+#            os-name: windows
+#            qt-version: '5.12'
+#            mingw-short-version: 73
+#            qt5-extra-archives: 'qtwinextras opengl32sw i686'
 
-          - os: ubuntu-latest
-            os-name: linux
-            qt-version: '5.12'
-            qt5-extra-archives: 'qtx11extras icu'
+#          - os: ubuntu-latest
+#            os-name: linux
+#            qt-version: '5.12'
+#            qt5-extra-archives: 'qtx11extras icu'
 
           - os: ubuntu-latest
             os-name: linux
             qt-version: '5.15'
             qt5-extra-archives: 'qtx11extras icu'
 
-          - os: macos-12
+          - os: macos-13
             os-name: mac
-            qt-version: '5.12'
+            qt-version: '5.15'
             qt5-extra-archives: 'qtmacextras'
 
           - os: ubuntu-latest
