@@ -27,12 +27,12 @@ jobs:
 
           - os: macos-13
             os-name: mac
-            qt-version: '5.15'
+            qt-version: '6.*'
             qt5-extra-archives: 'qtmacextras'
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '6.5'            
+            qt-version: '6.*'            
 
     defaults:
       run:
