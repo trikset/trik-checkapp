@@ -27,12 +27,12 @@ jobs:
 
           - os: macos-13
             os-name: mac
-            qt-version: '6.*'
+            qt-version: '6.8'
             qt5-extra-archives: 'qtmacextras'
 
           - os: ubuntu-latest
             os-name: linux
-            qt-version: '6.*'            
+            qt-version: '6.8'            
 
     defaults:
       run:
@@ -54,6 +54,7 @@ jobs:
       - name: Install Qt        
         uses: jurplel/install-qt-action@v4
         with:
+          aqtversion: '==3.3.*'
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
           modules: ${{ startsWith(matrix.qt-version, '6') && 'qt5compat qtmultimedia qtimageformats' || '' }}
