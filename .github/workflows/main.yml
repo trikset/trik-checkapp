@@ -49,7 +49,7 @@ jobs:
             git config --global core.autocrlf input
             cygpath -w /usr/bin >> $GITHUB_PATH || :
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Qt        
         uses: jurplel/install-qt-action@v4
