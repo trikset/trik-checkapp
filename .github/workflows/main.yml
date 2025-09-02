@@ -54,7 +54,7 @@ jobs:
       - name: Install Qt        
         uses: jurplel/install-qt-action@v4
         with:
-          aqtversion: '==3.3.*'
+#          aqtversion: '==3.3.*'
           version: ${{ matrix.qt-version }}
           host: ${{ matrix.os-name }}
           modules: ${{ startsWith(matrix.qt-version, '6') && 'qt5compat qtmultimedia qtimageformats' || '' }}
@@ -118,7 +118,7 @@ jobs:
 
       - name: Lint
         if: ${{ matrix.os == 'ubuntu-latest'}}
-        uses: cpp-linter/cpp-linter-action@v2.15.0
+        uses: cpp-linter/cpp-linter-action@v2.15.1
         id: linter
         with:
           style: 'file'
