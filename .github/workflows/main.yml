@@ -71,7 +71,7 @@ jobs:
              uname -a
              qmake --version
              make --version
-             g++ --version             
+             g++ --version
 
       - name: Check translations
         run: |
