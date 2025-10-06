@@ -118,7 +118,7 @@ jobs:
 
       - name: Lint
         if: ${{ matrix.os == 'ubuntu-latest'}}
-        uses: cpp-linter/cpp-linter-action@v2.16.4
+        uses: cpp-linter/cpp-linter-action@v2.16.5
         id: linter
         with:
           style: 'file'
