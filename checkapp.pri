@@ -56,4 +56,3 @@ RESOURCES += \
 
 DISTFILES += \
     checkapp.pri
-s
